@@ -4,6 +4,8 @@ FROM ubuntu:jammy-20240627.1 AS base
 # Build arguments
 ARG ARG_UID=1000
 ARG ARG_GID=1000
+ENV ARG_UID=$_ARG_UID
+ENV ARG_GID=$_ARG_GID
 
 FROM base AS build-arm64
 RUN echo "Preparing build of AnythingLLM image for arm64 architecture"
@@ -32,8 +34,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Create a group and user with specific UID and GID
-RUN groupadd -g "$ARG_GID" anythingllm && \
-    useradd -l -u "$ARG_UID" -m -d /app -s /bin/bash -g anythingllm anythingllm && \
+RUN groupadd -g $ARG_GID anythingllm && \
+    useradd -l -u $ARG_UID -m -d /app -s /bin/bash -g anythingllm anythingllm && \
     mkdir -p /app/frontend/ /app/server/ /app/collector/ && chown -R anythingllm:anythingllm /app
 
 # Copy docker helper scripts
@@ -92,7 +94,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Create a group and user with specific UID and GID
-RUN groupadd -g "$ARG_GID" anythingllm && \
+RUN groupadd -g $ARG_GID anythingllm && \
     useradd -l -u "$ARG_UID" -m -d /app -s /bin/bash -g anythingllm anythingllm && \
     mkdir -p /app/frontend/ /app/server/ /app/collector/ && chown -R anythingllm:anythingllm /app
 

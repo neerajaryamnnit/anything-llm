@@ -110,7 +110,7 @@ RUN chmod +x /usr/local/bin/docker-entrypoint.sh && \
 #############################################
 
 # hadolint ignore=DL3006
-FROM build-${TARGETARCH} AS build
+FROM build-arm64 AS build
 RUN echo "Running common build flow of AnythingLLM image for all architectures"
 
 USER anythingllm

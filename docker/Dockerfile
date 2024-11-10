@@ -4,8 +4,6 @@ FROM ubuntu:jammy-20240627.1 AS base
 # Build arguments
 ARG ARG_UID=1000
 ARG ARG_GID=1000
-ENV ARG_UID=$_ARG_UID
-ENV ARG_GID=$_ARG_GID
 
 FROM base AS build-arm64
 RUN echo "Preparing build of AnythingLLM image for arm64 architecture"

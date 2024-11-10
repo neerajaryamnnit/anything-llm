@@ -53,9 +53,9 @@ function bootSSL(app, port = 3001) {
 
 function bootHTTP(app, port = 3001) {
   if (!app) throw new Error('No "app" defined - crashing!');
-
+  const host = process.env.HOST || '0.0.0.0';
   app
-    .listen(port, async () => {
+    .listen(port,host, async () => {
       await setupTelemetry();
       new CommunicationKey(true);
       new EncryptionManager();

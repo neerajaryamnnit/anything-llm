@@ -37,8 +37,8 @@ RUN groupadd -g 1000 anythingllm && \
     mkdir -p /app/frontend/ /app/server/ /app/collector/ && chown -R anythingllm:anythingllm /app
 
 # Copy docker helper scripts
-COPY ./docker/docker-entrypoint.sh /usr/local/bin/
-COPY ./docker/docker-healthcheck.sh /usr/local/bin/
+COPY docker/docker-entrypoint.sh /usr/local/bin/
+COPY docker/docker-healthcheck.sh /usr/local/bin/
 COPY --chown=anythingllm:anythingllm ./docker/.env.example /app/server/.env
 
 # Ensure the scripts are executable
@@ -131,13 +131,13 @@ WORKDIR /app
 # Install server layer & build node-llama-cpp
 # Also pull and build collector deps (chromium issues prevent bad bindings)
 FROM build AS backend-build
-COPY ./server /app/server/
+COPY server /app/server/
 WORKDIR /app/server
 RUN yarn install --production --network-timeout 100000 && yarn cache clean
 WORKDIR /app
 
 # Install collector dependencies
-COPY ./collector/ ./collector/
+COPY collector/ ./collector/
 WORKDIR /app/collector
 ENV PUPPETEER_DOWNLOAD_BASE_URL=https://storage.googleapis.com/chrome-for-testing-public 
 RUN yarn install --production --network-timeout 100000 && yarn cache clean
